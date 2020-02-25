@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import axios from "axios";
 
 const styles = theme => ({
   root: {
@@ -15,8 +16,19 @@ const styles = theme => ({
 class TopBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      board: [5,4,8,5,4,5]
+    };
   }
+
+  test = () => {
+    const {board} = this.state;
+    console.log(board);
+    axios
+      .get("/api/solve", board)
+      .then(response => console.log("whatthe"))
+      .catch(err => console.log("Error"));
+  };
 
   render() {
     const { classes, dict } = this.props;
@@ -24,14 +36,11 @@ class TopBar extends Component {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">News</Typography>
-          <Button variant="contained" color="secondary" onClick={() => {
-
-fetch('./assets/usa.txt')
-.then((r) => r.text())
-.then(text  => {
-  console.log(text);
-})  
-} }>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => this.test()}
+          >
             Secondary
           </Button>
         </Toolbar>
