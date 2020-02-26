@@ -22,10 +22,14 @@ class TopBar extends Component {
   }
 
   test = () => {
-    const {board} = this.state;
-    console.log(board);
+    const board = "Ihatethis";
+    const payload = {
+			"board": {board}
+		}
+
+    console.log(payload);
     axios
-      .get("/api/solve", board)
+      .get("/api/solve", JSON.stringify.board)
       .then(response => console.log("whatthe"))
       .catch(err => console.log("Error"));
   };

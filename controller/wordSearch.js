@@ -1,3 +1,7 @@
+var fs = require('fs');
+var HashMap = require('hashmap');
+var dicttxt;
+var dictionary = new HashMap();
 var mainBoard;
 
 function Tile(value) {
@@ -7,11 +11,21 @@ function Tile(value) {
 
 function searchString(word) {}
 
+startUp = (req, res) =>{
+  fs.readFile('usa.txt', 'utf8', function(err, data) {
+    console.log(data);
+    dicttxt = data.split("\n");
+    dicttxt.forEach(word => dictionary.set(word, 1))
+    console.log(dictionary);
+    res.json({'dictionary': data.split("\n")});
+  });
+}
+
 solve = (req, res) => {
     console.log("Route works");
-    console.log();
-    qwert(1000000).then(console.log("actually done"));
-    res.json({'success': false, 'message': 'An error has occurred.'});
+    console.log(req);
+    //qwert(1000000).then(console.log("actually done"));
+    res.json({'success': true});
 }
 
 function createBoard(chararray) {
@@ -75,4 +89,4 @@ function traverseBoard(board, row, col, w) {
     traverseBoard(tempboard, row + 1, col + 1, word);
 }
 
-module.exports = {solve};
+module.exports = {solve, startUp};
