@@ -28,24 +28,30 @@ class Board extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    this.setState({
-      boardarry: [5, 2, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-    });
-  }
+  renderList = () => {
+    const { words, classes } = this.props;
 
-  render() {
-    const { classes, words } = this.props;
-
-    return (
-      <List component={Paper} elevation={6} border={1} className={classes.root}>
-        {words.map((word, i) => (
+    if (words.length > 0) {
+      return words.map((word, i) => {
+        return (
           <ListItem key={i}>
-            <Typography className={classes.text} align="center">
+            <Typography
+              className={classes.text}
+              align="center"
+            >
               {word.word}
             </Typography>
           </ListItem>
-        ))}
+        );
+      });
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <List component={Paper} elevation={6} border={1} className={classes.root}>
+        {this.renderList()}
       </List>
     );
   }

@@ -6,9 +6,9 @@ const styles = theme => ({
     height: 80,
     width: 80,
     display: "flex",
-    backgroundColor: "#acfcba",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#acfcba"
   },
   inputtext: {
     fontSize: "40px",
@@ -39,6 +39,7 @@ class Tile extends Component {
 
   render() {
     const { classes, value } = this.props;
+    const {color} = this.state
     return (
       <div className={classes.root}>
         <input

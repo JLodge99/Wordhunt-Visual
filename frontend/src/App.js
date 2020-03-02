@@ -4,6 +4,7 @@ import Topbar from "./components/Topbar";
 import Output from "./components/Output";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid } from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
 
 class App extends Component {
@@ -12,7 +13,10 @@ class App extends Component {
     this.state = {
       boardarry: [],
       tileboard: null,
-      words: []
+      words: [],
+      loading: false,
+      currentIndex: null,
+      change: false
     };
   }
 
@@ -47,27 +51,54 @@ class App extends Component {
     const { boardarry } = this.state;
     const payload = { board: boardarry };
     console.log("lol");
+    this.setState({
+      loading: true
+    });
     axios
       .post("/api/solve", payload)
       .then(response => {
         console.log(response);
-        this.setState({ words: response.data });
+        this.setState({ words: response.data, loading: false });
         console.log("done");
       })
       .catch(err => console.log("Error"));
   };
 
   handleInput = (data, index) => {
+    const { boardarry } = this.state;
+    let newboard = [...boardarry];
     console.log(data);
     console.log(index);
+    newboard[index] = data;
+    this.setState({
+      boardarry: newboard
+    });
+    console.log(this.state.boardarry);
+  };
+
+  handleLoading = () => {
+    const { loading } = this.state;
+
+    if (loading)
+      return (
+        <LinearProgress
+          variant="indeterminate"
+          color="secondary"
+        ></LinearProgress>
+      );
+    return null;
   };
 
   render() {
-    const { boardarry, words } = this.state;
+    const { boardarry, words, change } = this.state;
+    const Loadbar = this.handleLoading;
     return (
       <div style={{ height: "100vh" }}>
         <CssBaseline />
-        <Topbar handleSolve={this.handleSolve} />
+        <div style={{ height: "10vh" }}>
+          <Topbar handleSolve={this.handleSolve} />
+          <Loadbar />
+        </div>
         <Grid
           container
           direction="row"
@@ -76,7 +107,11 @@ class App extends Component {
           style={{ height: "90vh" }}
         >
           <Grid item>
-            <Board handleInput={this.handleInput} boardarry={boardarry} />
+            <Board
+              handleInput={this.handleInput}
+              boardarry={boardarry}
+              change={change}
+            />
           </Grid>
           <Grid>
             <Output words={words} />
