@@ -87,10 +87,14 @@ traverseBoard = (fwords, findex, board, row, col, w, ind) => {
     findex.push(index);
   }
 
-  if (row - 1 >= 0) traverseBoard(fwords, findex, tempboard, row - 1, col, word, index);
-  if (row + 1 < 4) traverseBoard(fwords, findex, tempboard, row + 1, col, word, index);
-  if (col - 1 >= 0) traverseBoard(fwords, findex, tempboard, row, col - 1, word, index);
-  if (col + 1 < 4) traverseBoard(fwords, findex, tempboard, row, col + 1, word, index);
+  if (row - 1 >= 0)
+    traverseBoard(fwords, findex, tempboard, row - 1, col, word, index);
+  if (row + 1 < 4)
+    traverseBoard(fwords, findex, tempboard, row + 1, col, word, index);
+  if (col - 1 >= 0)
+    traverseBoard(fwords, findex, tempboard, row, col - 1, word, index);
+  if (col + 1 < 4)
+    traverseBoard(fwords, findex, tempboard, row, col + 1, word, index);
   if (row - 1 >= 0 && col - 1 >= 0)
     traverseBoard(fwords, findex, tempboard, row - 1, col - 1, word, index);
   if (row - 1 >= 0 && col + 1 < 4)
