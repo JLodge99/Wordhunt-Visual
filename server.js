@@ -9,8 +9,6 @@ app.use(bodyParser.json());
 
 app.use('/api', solveRouter);
 
-//app.use('/', startUp);
-
 app.use((req, res, next) => 
 {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
