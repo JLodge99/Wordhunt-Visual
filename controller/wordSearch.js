@@ -1,8 +1,6 @@
 var fs = require("fs");
 const util = require("util");
 var HashMap = require("hashmap");
-var finalwords = [];
-var finalindex = [];
 var dictionary = new HashMap();
 
 function Tile(value) {
@@ -30,6 +28,8 @@ initHash = (req, res) => {
 solve = (req, res) => {
   console.log("Route works");
   let boardarray = req.body.board;
+  var finalwords = [];
+  var finalindex = [];
   let temp = "";
   let temp2 = [];
   console.log(temp2);
@@ -40,7 +40,7 @@ solve = (req, res) => {
   const tileBoard = createBoard(boardarray);
   for (var i = 0; i < 4; i++) {
     for (var j = 0; j < 4; j++) {
-      traverseBoard(tileBoard, i, j, temp, temp2);
+      traverseBoard(finalwords, finalindex, tileBoard, i, j, temp, temp2);
     }
   }
 
@@ -66,7 +66,7 @@ function createBoard(chararray) {
   return mainboard;
 }
 
-traverseBoard = (board, row, col, w, ind) => {
+traverseBoard = (fwords, findex, board, row, col, w, ind) => {
   let tempboard = [];
 
   tempboard = JSON.parse(JSON.stringify(board));
@@ -79,26 +79,26 @@ traverseBoard = (board, row, col, w, ind) => {
   if (
     dictionary.get(word) == 1 &&
     word.length > 2 &&
-    finalwords.includes(word) == false
+    fwords.includes(word) == false
   ) {
     console.log(word);
     console.log(index);
-    finalwords.push(word);
-    finalindex.push(index);
+    fwords.push(word);
+    findex.push(index);
   }
 
-  if (row - 1 >= 0) traverseBoard(tempboard, row - 1, col, word, index);
-  if (row + 1 < 4) traverseBoard(tempboard, row + 1, col, word, index);
-  if (col - 1 >= 0) traverseBoard(tempboard, row, col - 1, word, index);
-  if (col + 1 < 4) traverseBoard(tempboard, row, col + 1, word, index);
+  if (row - 1 >= 0) traverseBoard(fwords, findex, tempboard, row - 1, col, word, index);
+  if (row + 1 < 4) traverseBoard(fwords, findex, tempboard, row + 1, col, word, index);
+  if (col - 1 >= 0) traverseBoard(fwords, findex, tempboard, row, col - 1, word, index);
+  if (col + 1 < 4) traverseBoard(fwords, findex, tempboard, row, col + 1, word, index);
   if (row - 1 >= 0 && col - 1 >= 0)
-    traverseBoard(tempboard, row - 1, col - 1, word, index);
+    traverseBoard(fwords, findex, tempboard, row - 1, col - 1, word, index);
   if (row - 1 >= 0 && col + 1 < 4)
-    traverseBoard(tempboard, row - 1, col + 1, word, index);
+    traverseBoard(fwords, findex, tempboard, row - 1, col + 1, word, index);
   if (row + 1 < 4 && col - 1 >= 0)
-    traverseBoard(tempboard, row + 1, col - 1, word, index);
+    traverseBoard(fwords, findex, tempboard, row + 1, col - 1, word, index);
   if (row + 1 < 4 && col + 1 < 4)
-    traverseBoard(tempboard, row + 1, col + 1, word, index);
+    traverseBoard(fwords, findex, tempboard, row + 1, col + 1, word, index);
 };
 
 module.exports = { solve, initHash };
