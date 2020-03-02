@@ -3,67 +3,88 @@ import Board from "./components/Board.js";
 import Topbar from "./components/Topbar";
 import Output from "./components/Output";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import dict from "./assets/usa.txt"
 import { Grid } from "@material-ui/core";
+import axios from "axios";
 
 class App extends Component {
-	constructor() {
-		super();
-		this.state = {
+  constructor() {
+    super();
+    this.state = {
       boardarry: [],
-      words: ["Jerold", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany", "Brittany"]
-		};
-	}
+      tileboard: null,
+      words: []
+    };
+  }
 
-	componentDidMount() {
-		this.setState({
-			boardarry: [
-				"b",
-				"b",
-				"c",
-				"d",
-				"e",
-				"f",
-				"g",
-				"h",
-				"i",
-				"k",
-				"l",
-				"m",
-				"n",
-				"o",
-				"p",
-				"q"
-	  ],
-	   
-		});
-	}
+  componentDidMount() {
+    axios
+      .get("/api/startUp")
+      .then(response => console.log(response))
+      .catch(err => console.log("Error"));
+    this.setState({
+      boardarry: [
+        "a",
+        "e",
+        "i",
+        "n",
+        "d",
+        "t",
+        "t",
+        "h",
+        "c",
+        "r",
+        "e",
+        "l",
+        "u",
+        "n",
+        "r",
+        "l"
+      ]
+    });
+  }
 
-	render() {
+  handleSolve = () => {
+    const { boardarry } = this.state;
+    const payload = { board: boardarry };
+    console.log("lol");
+    axios
+      .post("/api/solve", payload)
+      .then(response => {
+        console.log(response);
+        this.setState({ words: response.data });
+        console.log("done");
+      })
+      .catch(err => console.log("Error"));
+  };
 
-		const { boardarry, words, dict } = this.state;
-		return (
-			<div style={{ height: "100vh" }}>
-				<CssBaseline />
-				<Topbar dict={dict}/>
-				<Grid
-					container
-					direction="row"
-					justify="space-evenly"
-					alignItems="center"
-					style={{ height: "90vh" }}
-				>
-					<Grid item>
-						<Board boardarry={boardarry} />
-					</Grid>
+  handleInput = (data, index) => {
+    console.log(data);
+    console.log(index);
+  };
 
-					<Grid>
-						<Output words={words}/>
-					</Grid>
-				</Grid>
-			</div>
-		);
-	}
+  render() {
+    const { boardarry, words } = this.state;
+    return (
+      <div style={{ height: "100vh" }}>
+        <CssBaseline />
+        <Topbar handleSolve={this.handleSolve} />
+        <Grid
+          container
+          direction="row"
+          justify="space-evenly"
+          alignItems="center"
+          style={{ height: "90vh" }}
+        >
+          <Grid item>
+            <Board handleInput={this.handleInput} boardarry={boardarry} />
+          </Grid>
+          <Grid>
+            <Output words={words} />
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
 }
 
 export default App;
