@@ -12,11 +12,8 @@ class App extends Component {
     super();
     this.state = {
       boardarry: [],
-      tileboard: null,
       words: [],
       loading: false,
-      currentIndex: null,
-      change: false
     };
   }
 
@@ -90,7 +87,7 @@ class App extends Component {
   };
 
   render() {
-    const { boardarry, words, change } = this.state;
+    const { boardarry, words } = this.state;
     const Loadbar = this.handleLoading;
     return (
       <div style={{ height: "100vh" }}>
@@ -110,7 +107,6 @@ class App extends Component {
             <Board
               handleInput={this.handleInput}
               boardarry={boardarry}
-              change={change}
             />
           </Grid>
           <Grid>

@@ -39,7 +39,6 @@ class Tile extends Component {
 
   render() {
     const { classes, value } = this.props;
-    const { color } = this.state;
     return (
       <div className={classes.root}>
         <input
