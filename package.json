@@ -20,8 +20,5 @@
     "express": "^4.17.1",
     "hashmap": "^2.4.0",
     "nodemon": "^2.0.2"
-  },
-  "devDependencies": {
-    "gh-pages": "^2.2.0"
   }
 }
